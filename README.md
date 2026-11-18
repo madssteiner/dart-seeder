@@ -13,6 +13,10 @@ npm run dev
 
 Use the language selector in the top-right corner to switch between English and Danish. The active language is highlighted. The browser remembers your choice, and switching languages preserves the current tournament.
 
+## Deploy to GitHub Pages
+
+In the repository’s **Settings → Pages**, choose **GitHub Actions** as the source. The Pages workflow builds `dist/` and publishes it on pushes to `main`. You can also run it from the **Actions** tab. The project URL is `https://madssteiner.github.io/dart-seeder/` once Pages is enabled and a deployment succeeds.
+
 Paste one name per line, choose **Individuals (1 vs. 1)** or **Teams (2 vs. 2)**, set the **Loss limit**, and click **Start tournament**. Blank lines are ignored. Each player needs a unique name; capitalization and extra spaces don’t distinguish names. Use a surname or nickname when players share a name.
 
 - **Individuals** needs at least two players. An odd roster leaves one player sitting out.

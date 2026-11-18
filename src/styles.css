@@ -21,6 +21,8 @@ p, h1, h2 { margin: 0; }
 }
 
 .intro { margin-bottom: 2rem; }
+.credits { margin-top: 1.5rem; text-align: end; color: var(--muted); font-size: .875rem; }
+.credits a { color: var(--ink); text-underline-offset: .2em; }
 .intro .section-heading { align-items: center; }
 .language-switch { display: flex; padding: .15rem; gap: .15rem; border: 1px solid var(--line); border-radius: .65rem; background: var(--paper); }
 .language-switch button { min-height: 44px; padding: .35rem .65rem; border: 0; border-radius: .45rem; background: transparent; color: var(--ink); font: inherit; font-weight: 650; cursor: pointer; }

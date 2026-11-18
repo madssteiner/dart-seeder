@@ -189,6 +189,9 @@ export function App() {
         </section>
       </div>
       {tournament && <TournamentSchedule tournament={tournament} text={text} />}
+      <footer className="credits">
+        {text.credits}{' '}<a href="https://github.com/madssteiner">Mads Steiner</a>
+      </footer>
       <dialog ref={dialog} className="round-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
         <h2 id="dialog-title">{dialogMode === 'edit' ? text.reopenTitle : text.verifyResults}</h2>
         {dialogMode === 'edit' ? (

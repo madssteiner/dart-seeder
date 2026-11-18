@@ -3,6 +3,7 @@ import {type TournamentRound} from './tournament'
 export type Language = 'en' | 'da'
 
 const en = {
+  credits: 'Built by',
   intro: 'Draw darts matches, pick the winners, and play until the loss limit decides who’s out.',
   standings: 'Standings', lossLimit: 'Loss limit',
   lossRule: (n: number) => `${n} ${n === 1 ? 'loss' : 'losses'} to go out`,
@@ -42,6 +43,7 @@ const en = {
 export type Messages = typeof en
 
 const da: Messages = {
+  credits: 'Udviklet af',
   intro: 'Træk lod om dartkampene, vælg vinderne, og spil videre, indtil tabsgrænsen afgør, hvem der ryger ud.',
   standings: 'Stilling', lossLimit: 'Tabsgrænse', lossRule: n => `${n} nederlag før man ryger ud`,
   standingsHelp: 'Spillere, der stadig er med, står øverst. Derefter rangeres de efter flest sejre og færrest nederlag. Pauser tæller afsluttede runder, hvor spilleren sad over. Vælg en kolonne for at sortere.',
