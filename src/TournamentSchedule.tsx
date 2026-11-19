@@ -1,4 +1,5 @@
 import {roundTitle, type Messages} from './language'
+import {PlayerNames} from './PlayerNames'
 import {tournamentPodium, type Tournament} from './tournament'
 
 export default function TournamentSchedule({tournament, text}: {tournament: Tournament; text: Messages}) {
@@ -24,7 +25,7 @@ export default function TournamentSchedule({tournament, text}: {tournament: Tour
                 {podiumLabels.map((place, index) => (
                   <div key={place}>
                     <dt>{place}</dt>
-                    <dd>{podium[index] ? names(podium[index], ' & ') : text.notAwarded}</dd>
+                    <dd>{podium[index] ? <PlayerNames>{names(podium[index], ' & ')}</PlayerNames> : text.notAwarded}</dd>
                   </div>
                 ))}
               </dl>
@@ -58,17 +59,17 @@ export default function TournamentSchedule({tournament, text}: {tournament: Tour
                   {round.matches.map(([first, second], match) => (
                     <li key={match}>
                       <span className={round.winners?.[match] === 0 ? 'winning-side' : undefined}>
-                        {names(first, ' & ')}{round.winners && <small>{round.winners[match] === 0 ? text.won : text.lost}</small>}
+                        <PlayerNames>{names(first, ' & ')}</PlayerNames>{round.winners && <small>{round.winners[match] === 0 ? text.won : text.lost}</small>}
                       </span>
                       <span className="versus">{text.versus}</span>
                       <span className={round.winners?.[match] === 1 ? 'winning-side' : undefined}>
-                        {names(second, ' & ')}{round.winners && <small>{round.winners[match] === 1 ? text.won : text.lost}</small>}
+                        <PlayerNames>{names(second, ' & ')}</PlayerNames>{round.winners && <small>{round.winners[match] === 1 ? text.won : text.lost}</small>}
                       </span>
                     </li>
                   ))}
                 </ul>
-                {resting.length > 0 && <p className="timeline-note"><strong>{text.satOut}:</strong> {names(resting)}</p>}
-                {eliminated.length > 0 && <p className="timeline-note"><strong>{text.eliminated}:</strong> {names(eliminated)}</p>}
+                {resting.length > 0 && <p className="timeline-note"><strong>{text.satOut}:</strong> <PlayerNames>{names(resting)}</PlayerNames></p>}
+                {eliminated.length > 0 && <p className="timeline-note"><strong>{text.eliminated}:</strong> <PlayerNames>{names(eliminated)}</PlayerNames></p>}
               </article>
             </li>
           )

@@ -1,6 +1,7 @@
 import {type FormEvent, useEffect, useRef, useState} from 'react'
 
 import {duplicateNames, hasMarkupDelimiters, parseNames} from './pairing'
+import {PlayerNames} from './PlayerNames'
 import {messages, roundTitle, type Language} from './language'
 import {Standings} from './Standings'
 import {useTournamentMutation} from './state/queries/pairing'
@@ -30,7 +31,7 @@ export function App() {
   const names = parseNames(draft)
   const duplicates = duplicateNames(names)
   const namesError = hasMarkupDelimiters(names) ? text.markupInNames
-    : duplicates.length > 0 ? text.duplicates(duplicates) : undefined
+    : duplicates.length > 0 ? <>{text.duplicates(duplicates.length)} <PlayerNames>{duplicates.join(', ')}</PlayerNames>.</> : undefined
   const minimum = playersPerMatch(mode)
   const limit = Number(lossLimit)
   const canStart = !namesError && names.length >= minimum && Number.isSafeInteger(limit) && limit >= 1
@@ -116,7 +117,7 @@ export function App() {
               <span className="count">{text.people(names.length)}</span>
             </div>
             <p id="names-help" className="hint">{text.namesHelp}</p>
-            <textarea id="names" aria-describedby={namesError ? 'names-help names-error' : 'names-help'} aria-invalid={Boolean(namesError)} placeholder={'Avery\nJordan\nSam'} rows={7}
+            <textarea id="names" translate="no" className="notranslate" aria-describedby={namesError ? 'names-help names-error' : 'names-help'} aria-invalid={Boolean(namesError)} placeholder={'Avery\nJordan\nSam'} rows={7}
               value={draft} onChange={event => setDraft(event.target.value)} />
             {namesError && <p className="hint" id="names-error" role="alert">{namesError}</p>}
             <fieldset className="game-setup">
@@ -138,9 +139,9 @@ export function App() {
           {tournament?.finished ? (
             <div role="status" className="empty">
               {tournament.mode === 'individuals' ? (
-                <p><strong>{text.winner}:</strong> {tournament.players[individualFinalists(tournament)[0]]}</p>
+                <p><strong>{text.winner}:</strong> <PlayerNames>{tournament.players[individualFinalists(tournament)[0]]}</PlayerNames></p>
               ) : champions.length > 0 ? (
-                <p><strong>{text.champions}:</strong> {champions.map(id => tournament.players[id]).join(' & ')}</p>
+                <p><strong>{text.champions}:</strong> <PlayerNames>{champions.map(id => tournament.players[id]).join(' & ')}</PlayerNames></p>
               ) : (
                 <p>{text.remaining(remaining)}</p>
               )}
@@ -165,7 +166,7 @@ export function App() {
                           <label key={side[0]}>
                             <input type="radio" name={`winner-${index}`} required checked={winner === choice}
                               onChange={() => setSelectedWinners(previous => ({...previous, [index]: choice}))} />
-                            <span>{name}</span>
+                            <PlayerNames>{name}</PlayerNames>
                             {winner !== undefined && <small>{winner === choice ? text.won : text.lost}</small>}
                           </label>
                         )
@@ -175,7 +176,7 @@ export function App() {
                 })}
               </div>
               {currentRound.byes.map(side => (
-                <p className="carry-out" key={side[0]}><span>{text.bye(side.length)}</span><strong>{side.map(id => tournament.players[id]).join(side.length === 3 ? ', ' : ' & ')}</strong></p>
+                <p className="carry-out" key={side[0]}><span>{text.bye(side.length)}</span><strong><PlayerNames>{side.map(id => tournament.players[id]).join(side.length === 3 ? ', ' : ' & ')}</PlayerNames></strong></p>
               ))}
               <button className="complete-round" type="submit" disabled={!hasAllWinners || action.isPending}>{text.completeRound}</button>
             </form>
@@ -206,8 +207,8 @@ export function App() {
                 return (
                   <li key={index}>
                     <strong>{text.match(index + 1)}</strong>
-                    <span>{text.won}: {match[winner].map(id => tournament.players[id]).join(' & ')}</span>
-                    <span>{text.lost}: {match[1 - winner].map(id => tournament.players[id]).join(' & ')}</span>
+                    <span>{text.won}: <PlayerNames>{match[winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></span>
+                    <span>{text.lost}: <PlayerNames>{match[1 - winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></span>
                   </li>
                 )
               })}

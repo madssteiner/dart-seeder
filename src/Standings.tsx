@@ -1,6 +1,7 @@
 import {useState} from 'react'
 
 import {type Messages} from './language'
+import {PlayerNames} from './PlayerNames'
 import {countWins, individualFinalists, teamChampions, type Tournament} from './tournament'
 
 const columns = [
@@ -73,7 +74,7 @@ export function Standings({tournament, text}: {tournament: Tournament; text: Mes
       ))}</tr></thead>
       <tbody>{rows.map(player => (
         <tr key={player.id}>
-          <td>{player.rank}</td><th scope="row">{player.name}</th>
+          <td>{player.rank}</td><th scope="row"><PlayerNames>{player.name}</PlayerNames></th>
           <td>{player.wins}</td><td>{player.losses}</td><td>{player.skipped}</td><td>{player.status}</td>
         </tr>
       ))}</tbody>
