@@ -193,22 +193,31 @@ export function App() {
       <footer className="credits">
         {text.credits}{' '}<a href="https://github.com/madssteiner">Mads Steiner</a>
       </footer>
-      <dialog ref={dialog} className="round-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+      <dialog ref={dialog} className="round-dialog" data-mode={dialogMode} aria-labelledby="dialog-title" aria-describedby="dialog-description">
+        <div className="round-dialog-content">
         <h2 id="dialog-title">{dialogMode === 'edit' ? text.reopenTitle : text.verifyResults}</h2>
         {dialogMode === 'edit' ? (
           <p id="dialog-description">{text.reopenHelp}</p>
         ) : (
           <>
             <p id="dialog-description">{text.verifyHelp}</p>
-            <ol className="review-results">
+            <ol className="review-results" role="list" tabIndex={0} aria-label={text.verifyResults}>
               {tournament && currentRound?.matches.map((match, index) => {
                 const winner = winners[index]
                 if (winner === undefined) return null
                 return (
                   <li key={index}>
-                    <strong>{text.match(index + 1)}</strong>
-                    <span>{text.won}: <PlayerNames>{match[winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></span>
-                    <span>{text.lost}: <PlayerNames>{match[1 - winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></span>
+                    <h3>{text.match(index + 1)}</h3>
+                    <dl className="review-outcome">
+                      <div className="review-winner">
+                        <dt><span aria-hidden="true">✓ </span>{text.winner}</dt>
+                        <dd><PlayerNames>{match[winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></dd>
+                      </div>
+                      <div className="review-loser">
+                        <dt>{text.loser}</dt>
+                        <dd><PlayerNames>{match[1 - winner].map(id => tournament.players[id]).join(' & ')}</PlayerNames></dd>
+                      </div>
+                    </dl>
                   </li>
                 )
               })}
@@ -216,8 +225,9 @@ export function App() {
           </>
         )}
         <div className="dialog-actions">
-          <button type="button" autoFocus onClick={() => dialog.current?.close()}>{dialogMode === 'edit' ? text.cancel : text.backToResults}</button>
+          <button type="button" autoFocus onClick={() => dialog.current?.close()}>{dialogMode === 'edit' ? text.cancel : text.backToEdit}</button>
           <button type="button" onClick={confirmDialog}>{dialogMode === 'edit' ? text.reopenRound : text.confirmResults}</button>
+        </div>
         </div>
       </dialog>
     </main>

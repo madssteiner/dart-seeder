@@ -129,14 +129,30 @@ textarea:focus-visible, input:focus-visible, button:focus-visible { outline: 2px
 .complete-round { margin-top: 1rem; }
 .workspace .edit-round { margin-top: .75rem; background: var(--paper); color: var(--ink); }
 .workspace .edit-round:hover:enabled { background: var(--ticket); }
-.round-dialog { width: min(100% - 2rem, 32rem); max-height: 85vh; padding: 1.25rem; border: 1px solid var(--line); border-radius: .75rem; color: var(--ink); background: var(--paper); }
+.round-dialog { width: min(100% - 2rem, 32rem); max-height: 85vh; padding: 0; border: 1px solid var(--line); border-radius: .75rem; color: var(--ink); background: var(--paper); }
+.round-dialog[data-mode='review'] { width: min(100% - 2rem, 36rem); }
+.round-dialog-content { max-height: calc(85dvh - 2px); display: flex; flex-direction: column; padding: clamp(.85rem, 4vw, 1.25rem); }
 .round-dialog::backdrop { background: #24234780; }
 .round-dialog p { margin-top: .6rem; line-height: 1.5; }
-.review-results { margin: .75rem 0 0; padding: 0; list-style: none; }
-.review-results li { display: grid; gap: .2rem; padding: .6rem 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
-.dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .55rem; margin-top: 1rem; }
+.review-results { min-height: 0; overflow-y: auto; margin: .8rem 0 0; padding: 0; list-style: none; border-block: 1px solid var(--line); }
+.review-results:focus-visible { outline: 2px solid #5946ab; outline-offset: -2px; }
+.review-results li { padding: .8rem 0; overflow-wrap: anywhere; }
+.review-results li + li { border-top: 1px solid var(--line); }
+.review-results h3 { margin: 0 0 .45rem; font-size: .9rem; }
+.review-outcome { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin: 0; }
+.review-outcome > div { padding: .55rem .7rem; border-radius: .4rem; }
+.review-outcome dt { font-size: .8rem; font-weight: 650; color: var(--muted); }
+.review-outcome dd { margin: .2rem 0 0; }
+.review-winner { background: var(--carry); }
+.review-winner dt, .review-winner dd { color: var(--ink); font-weight: 700; }
+.review-loser { background: #f5f4fb; }
+.dialog-actions { display: flex; flex: none; flex-wrap: wrap; justify-content: flex-end; gap: .55rem; margin-top: 1rem; }
 .dialog-actions button { min-height: 44px; padding: .55rem .85rem; border: 1px solid var(--ink); border-radius: .45rem; color: var(--ink); background: var(--paper); font: inherit; cursor: pointer; }
 .dialog-actions button:last-child { color: var(--paper); background: var(--ink); }
+
+@media (max-width: 32rem) {
+  .review-outcome { grid-template-columns: minmax(0, 1fr); }
+}
 
 @media (max-width: 42rem) {
   .workspace { grid-template-columns: minmax(0, 1fr); }
